@@ -1,5 +1,4 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -7,5 +6,39 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<Welcome />
+    <div class='flex h-full' x-data="drawer">
+        <aside class='bg-neutral-300 w-80'></aside>
+        <div class='p-12'>
+            <h1 class='font-bold text-3xl pb-32'>Page Header</h1>
+            <div class="flex flex-col gap-8">
+                <div class='w-60'>
+                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click='toggle'>Button 1</button>
+                    <p class='font-bold text-xs'>remote content target 1 (index1.html) drawer sttings (small, overlay, heading)</p>
+                </div>
+
+                <div class='w-60'>
+                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2'>Button 2</button>
+                    <p class='font-bold text-xs'>remote content target 2 (index2.html) drawer sttings (small, overlay, heading)</p>
+                </div>
+
+                <div class='w-60'>
+                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2'>Button 3</button>
+                    <p class='font-bold text-xs'>remote content target 3 (index3.html) drawer sttings (small, overlay, heading)</p>
+                </div>
+            </div>
+        </div>
+
+        <template x-if="open && overlayDrawer">
+            <div class="fixed inset-0 bg-black/50 w-screen h-screen backdrop-blur-sm animate fade-in">
+                <div class="relative w-full h-full">
+                    <div class="absolute inset-y-6 right-6 flex w-1/4"> 
+                        <div class="rounded-xl bg-white shadow w-full h-full p-6" x-ref="overlayDrawerContent">
+                            <h1>Drawer content</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </div>
 </Layout>
