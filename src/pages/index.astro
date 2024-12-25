@@ -6,18 +6,38 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-    <div class='flex h-full' x-data="drawer">
-        <aside class='bg-neutral-300 w-80'></aside>
+    <div class='flex relative' x-data="drawer">
+
+        <aside class='bg-neutral-300 w-80'>
+            <ul class="list-none p-0 m-0">
+              <li class="mb-2">
+                <a href="index1.html" class="block py-2 px-4 bg-pink-400 text-white hover:bg-blue-700">
+                  Item 1
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="index2.html" class="block py-2 px-4 bg-pink-400 text-white hover:bg-blue-700">
+                  Item 2
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="index3.html" class="block py-2 px-4 bg-pink-400 text-white hover:bg-blue-700">
+                  Item 3
+                </a>
+              </li>
+            </ul>
+        </aside>
+
         <div class='p-12'>
             <h1 class='font-bold text-3xl pb-32'>Page Header</h1>
-            <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-8 pb-24 sticky top-6 bg-white">
                 <div class='w-60'>
-                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click='toggle'>Button 1</button>
+                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop='toggle'>Button 1</button>
                     <p class='font-bold text-xs'>remote content target 1 (index1.html) drawer sttings (small, overlay, heading)</p>
                 </div>
 
                 <div class='w-60'>
-                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2'>Button 2</button>
+                    <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop="toggle('lock')">Button 2</button>
                     <p class='font-bold text-xs'>remote content target 2 (index2.html) drawer sttings (small, overlay, heading)</p>
                 </div>
 
@@ -26,14 +46,45 @@ import Layout from '../layouts/Layout.astro';
                     <p class='font-bold text-xs'>remote content target 3 (index3.html) drawer sttings (small, overlay, heading)</p>
                 </div>
             </div>
+            <p class='max-w-40'>Lorem ipsum odor amet, consectetuer adipiscing elit. Posuere id sociosqu tristique malesuada pellentesque donec quam augue inceptos. Justo aliquam bibendum senectus mi egestas nostra auctor hac iaculis. Fusce quis nullam sociosqu varius arcu magnis. Sociosqu per tristique phasellus nascetur pellentesque sed in fusce condimentum. Finibus quis mauris commodo pellentesque conubia maximus. Nulla iaculis ultrices per volutpat blandit nunc.</p>
+            <p class='max-w-40'>Lorem ipsum odor amet, consectetuer adipiscing elit. Posuere id sociosqu tristique malesuada pellentesque donec quam augue inceptos. Justo aliquam bibendum senectus mi egestas nostra auctor hac iaculis. Fusce quis nullam sociosqu varius arcu magnis. Sociosqu per tristique phasellus nascetur pellentesque sed in fusce condimentum. Finibus quis mauris commodo pellentesque conubia maximus. Nulla iaculis ultrices per volutpat blandit nunc.</p>
+            <p class='max-w-40'>Lorem ipsum odor amet, consectetuer adipiscing elit. Posuere id sociosqu tristique malesuada pellentesque donec quam augue inceptos. Justo aliquam bibendum senectus mi egestas nostra auctor hac iaculis. Fusce quis nullam sociosqu varius arcu magnis. Sociosqu per tristique phasellus nascetur pellentesque sed in fusce condimentum. Finibus quis mauris commodo pellentesque conubia maximus. Nulla iaculis ultrices per volutpat blandit nunc.</p>
+            <p class='max-w-40'>Lorem ipsum odor amet, consectetuer adipiscing elit. Posuere id sociosqu tristique malesuada pellentesque donec quam augue inceptos. Justo aliquam bibendum senectus mi egestas nostra auctor hac iaculis. Fusce quis nullam sociosqu varius arcu magnis. Sociosqu per tristique phasellus nascetur pellentesque sed in fusce condimentum. Finibus quis mauris commodo pellentesque conubia maximus. Nulla iaculis ultrices per volutpat blandit nunc.</p>
+            <p class='max-w-40'>Lorem ipsum odor amet, consectetuer adipiscing elit. Posuere id sociosqu tristique malesuada pellentesque donec quam augue inceptos. Justo aliquam bibendum senectus mi egestas nostra auctor hac iaculis. Fusce quis nullam sociosqu varius arcu magnis. Sociosqu per tristique phasellus nascetur pellentesque sed in fusce condimentum. Finibus quis mauris commodo pellentesque conubia maximus. Nulla iaculis ultrices per volutpat blandit nunc.</p>
         </div>
 
         <template x-if="open && overlayDrawer">
             <div class="fixed inset-0 bg-black/50 w-screen h-screen backdrop-blur-sm animate fade-in">
                 <div class="relative w-full h-full">
-                    <div class="absolute inset-y-6 right-6 flex w-1/4"> 
-                        <div class="rounded-xl bg-white shadow w-full h-full p-6" x-ref="overlayDrawerContent">
+                    <div class="absolute inset-y-6 right-6 flex transition-all" :class="expanded ? 'w-2/5' : 'w-1/4'"> 
+                        <div class="rounded-xl bg-white shadow w-full h-full p-6 slide-in translate-x-[calc(3rem_+_100%)]" @click.outside='toggle'>
+                            <div class="flex items-center justify-between">
+                                <div class="flex gap-1 items-end">
+                                    <button class="h-4 w-4 overflow-hidden" @click="expanded = true">
+                                        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-4 -translate-x-1/4" :class="expanded ? 'stroke-neutral-500' : 'stroke-black'">
+                                            <path d="M8.375 1.25L4.625 5L8.375 8.75M5.375 1.25L1.625 5L5.375 8.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+
+                                    <button class="h-4 w-4 overflow-hidden" @click="expanded = false">
+                                        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-4 -translate-x-1/4" :class="expanded ? 'stroke-black' : 'stroke-neutral-500'">
+                                            <path d="M1.625 8.75L5.375 5L1.625 1.25M4.625 8.75L8.375 5L4.625 1.25" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+
+                                    <h4 class='font-bold pl-2 -mb-px leading-none'>Drawer heading</h4>
+                                </div>
+
+                                <button @click="toggle">
+<svg class="h-6 w-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.75 7.75L12.25 12.25M12.25 7.75L7.75 12.25M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                                </button>
+                            </div>
+
                             <h1>Drawer content</h1>
+                            <span x-text="expanded"></span>
+                            <span x-text="open"></span>
                         </div>
                     </div>
                 </div>

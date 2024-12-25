@@ -2,11 +2,24 @@
     animation: 0.2s ease-out fade-in;
 }
 
+.slide-in {
+    animation: 0.15s 0.1s ease-in slide-in forwards;
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
     }
     to {
         opacity: 100;
+    }
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(calc(3rem + 100%));
+    }
+    to {
+        transform: translateX(0);
     }
 }

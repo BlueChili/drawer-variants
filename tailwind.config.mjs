@@ -6,6 +6,7 @@ export default {
 	},
 	plugins: [],
 	safelist: [
+		'overflow-hidden',
 		{ pattern: /bg-black-.+/ },
 		{ pattern: /bg-white-.+/ },
 	],
