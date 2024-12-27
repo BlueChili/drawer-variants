@@ -6,10 +6,10 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-    <div class='flex relative overflow-x-hidden' x-data="drawer">
+    <div class='flex relative overflow-x-hidden min-h-svh' x-data="drawer">
 
-        <aside class='bg-neutral-300 w-80 shrink-0 h-screen'>
-            <ul class="list-none p-0 m-0 sticky top-0">
+        <aside class='bg-neutral-300 w-80 shrink-0'>
+            <ul class="list-none p-0 m-0">
               <li class="mb-2">
                 <a href="#" class="block py-2 px-4 bg-zinc-400 text-white hover:bg-zinc-500">
                   Item 1
@@ -35,20 +35,20 @@ import Layout from '../layouts/Layout.astro';
         <template x-if="!(!!mainContent)">
             <div class='p-12 grow flex flex-col transition-all shrink'>
                 <h1 class='font-bold text-3xl pb-32'>Page Header</h1>
-                <div class="flex flex-col gap-8 pb-24 sticky top-6 bg-white">
+                <div class="flex flex-col gap-8 pb-24 bg-white">
                     <div class='w-60'>
                         <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop="toggle({ url: '/index1' })">Button 1</button>
                         <p class='font-bold text-xs'>remote content target 1 (index1.html) drawer sttings (small, overlay, heading)</p>
                     </div>
 
                     <div class='w-60'>
-                        <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop="toggle({url: '/index3', variant: 'scroll' })">Button 2</button>
-                        <p class='font-bold text-xs'>remote content target 2 (index2.html) drawer sttings (small, overlay, heading)</p>
+                        <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop="toggle({url: '/index3', variant: 'scroll', expanded: true})">Button 2</button>
+                        <p class='font-bold text-xs'>remote content target 3 (index3.html) drawer sttings (large, overlay, heading)</p>
                     </div>
 
                     <div class='w-60'>
                         <button class='font-bold text-2xl bg-neutral-300 px-8 py-2 mb-2' @click.stop="toggle({url: '/index1', variant: 'inline', expanded: true, mainContentUrl: '/index2'})">Button 3</button>
-                        <p class='font-bold text-xs'>remote content target 3 (index3.html) drawer sttings (small, overlay, heading)</p>
+                        <p class='font-bold text-xs'>remote content target 3 (index3.html) drawer sttings (large, inline, heading)</p>
                     </div>
                 </div overflow-x-hidden>
 
