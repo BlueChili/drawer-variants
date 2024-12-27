@@ -2,43 +2,98 @@ import type { Alpine } from "alpinejs";
 
 enum Variant {
     undefined,
-    LOCK_SCROLL = 'lock',
-    INLINE = 'inline',
+    SCROLL = "scroll",
+    INLINE = "inline",
 }
 
+type ToggleProps = {
+    url: URL["href"];
+    variant: Variant;
+    expanded?: boolean;
+    mainContentUrl: URL["href"];
+};
+
 type dataProps = {
-    overlayDrawer: boolean;
-    inlineDrawer: boolean;
-    lockDrawer: boolean; 
     open: boolean;
+    loading: boolean;
     expanded: boolean;
-    lockedOverlay: () => void;
-    toggle: (variant: Variant) => void;
+    mainContent: string;
+    inlineDrawer: boolean;
+    remoteContent: null | string;
+    mainContentUrl: undefined | string;
+    toggle: (options: ToggleProps) => void;
 };
 
 export default (Alpine: Alpine) => {
     Alpine.data(
         "drawer",
         (): dataProps => ({
-            overlayDrawer: true,
-            inlineDrawer: false,
-            lockDrawer: false,
             open: false,
+            loading: false,
             expanded: false,
+            mainContent: '',
+            inlineDrawer: false,
+            remoteContent: null,
+            mainContentUrl: undefined,
 
-            lockedOverlay() {},
-
-            toggle(variant) {
+            toggle(options) {
                 this.open = !this.open;
-                this.overlayDrawer = this.open;
-                this.inlineDrawer = false;
-                this.lockDrawer = false;
+                this.inlineDrawer = options.variant === "inline" || false;
+                this.expanded = options.expanded ?? false;
+
+                if (this.open && options.variant === undefined) {
+                    document.body.classList.add("overflow-hidden");
+                }
+
+                if (options.mainContentUrl) {
+                    fetch(options.mainContentUrl)
+                        .then((res) => {
+                            if (!res.ok) {
+                                throw new Error(res.statusText);
+                            }
+                            return res.text();
+                        })
+                        .then((res) => {
+                            this.mainContent = res;
+                            return res;
+                        })
+                        .catch((e) => {
+                            console.error(e.message);
+                            this.mainContent = "<p class='my-40 text-center text-zinc-600'>An error occurred while fetching content.</p>"
+                            return null;
+                        });
+                }
+
+                if (options.url) {
+                    this.loading = true;
+                    fetch(options.url)
+                        .then((res) => {
+                            if (!res.ok) {
+                                throw new Error(res.statusText);
+                            }
+                            return res.text();
+                        })
+                        .then((res) => {
+                            this.remoteContent = res;
+                            this.loading = false;
+                            return res;
+                        })
+                        .catch((e) => {
+                            this.loading = false;
+                            console.error(e.message);
+                            this.remoteContent = "<p class='my-40 text-center text-zinc-600'>An error occurred while fetching content.</p>"
+                            return null;
+                        });
+                }
+
+                // Cleanup code
                 if (!this.open) {
                     this.expanded = false;
-                    document.body.classList.remove('overflow-hidden');
-                }
-                if (this.open && variant === 'lock') {
-                    document.body.classList.add('overflow-hidden');
+                    this.loading = false;
+                    this.remoteContent = null;
+                    this.mainContent = '';
+                    this.mainContentUrl = undefined;
+                    document.body.classList.remove("overflow-hidden");
                 }
             },
         })
