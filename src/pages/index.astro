@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 <Layout>
     <div class='flex relative overflow-x-hidden min-h-svh' x-data="drawer">
 
-        <aside class='bg-neutral-300 w-80 shrink-0'>
+        <aside class='bg-neutral-300 w-80 shrink-0 min-h-svh'>
             <ul class="list-none p-0 m-0">
               <li class="mb-2">
                 <a href="#" class="block py-2 px-4 bg-zinc-400 text-white hover:bg-zinc-500">
@@ -119,7 +119,7 @@ import Layout from '../layouts/Layout.astro';
 
             <aside
                 id="inline"
-                class="transition-all shrink shadow"
+                class="transition-all shrink grow-0 shadow border-zinc-200 border-l"
                 :class="{
                     'w-0': !open,
                     'w-1/4': open && !expanded,
@@ -127,7 +127,7 @@ import Layout from '../layouts/Layout.astro';
                 }"
                 x-show="open && inlineDrawer"
                 x-transition:enter="transition-all ease-out duration-300"
-                x-transition:enter-start="w-0"
+                x-transition:enter-start="!w-0"
                 x-transition:enter-end=""
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start=""
